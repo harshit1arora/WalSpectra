@@ -579,7 +579,6 @@
 
     <div class="container">
 
-
         <!-- Screen 1: Problem -->
         <div class="screen active" id="screen1">
             <div class="header">
@@ -636,16 +635,6 @@
                 <h2>Inventory Phantom Detection Exclusively Designed for Walmart</h2>
                 <p>3D visualization of phantom inventory hotspots</p>
             </div>
-
-            <div class="store-3d-container">
-                <div class="store-3d-controls">
-                    <button class="control-btn active" onclick="toggle3DView('isometric')">Isometric</button>
-                    <button class="control-btn" onclick="toggle3DView('top')">Top View</button>
-                    <button class="control-btn" onclick="toggle3DView('walkthrough')">Walkthrough</button>
-                </div>
-                <canvas id="store3d" style="width: 100%; height: 100%;"></canvas>
-            </div>
-
 
             <div class="heatmap-container">
                 <h3 style="text-align: center; margin-bottom: 20px;">Store Layout - Phantom Hotspots</h3>
@@ -1659,55 +1648,7 @@
             showScreen(1);
         });
 
-    </script>
-    <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
 
-        main {
-            flex: 1;
-        }
-
-        footer {
-            text-align: center;
-            padding: 10px;
-            font-size: 14px;
-            color: #171d14;
-        }
-    </style>
-
-    <body>
-        <main>
-            <!-- Your page content here -->
-        </main>
-        <footer>
-            © 2025 Team SparkVIT – Walmart WalSpectra, Phantom Inventory Detector
-        </footer>
-    </body>
-    <!-- 1. Add the zone modal dialog just before the closing </body> tag -->
-    <div class="zone-modal" id="zoneModal">
-        <div class="zone-modal-content">
-            <div class="zone-modal-header">
-                <div class="zone-modal-title" id="zoneModalTitle">Zone A1 - 3D View</div>
-                <button class="zone-modal-close" onclick="closeZoneModal()">×</button>
-            </div>
-            <div class="zone-modal-body">
-                <div class="zone-3d-container" id="zone3dView"></div>
-                <div class="zone-view-controls">
-                    <button class="zone-view-btn active" onclick="setZoneView('isometric')">Isometric</button>
-                    <button class="zone-view-btn" onclick="setZoneView('top')">Top View</button>
-                    <button class="zone-view-btn" onclick="setZoneView('walkthrough')">Walkthrough</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // ...existing code...
 
         // Zone Modal Functions
         function openZoneModal(zoneId) {
@@ -1939,3 +1880,51 @@
             updateCamera();
         }
     </script>
+
+
+
+    </script>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            color: #171d14;
+        }
+    </style>
+
+    <!-- 1. Add the zone modal dialog just before the closing </body> tag -->
+    <div class="zone-modal" id="zoneModal">
+        <div class="zone-modal-content">
+            <div class="zone-modal-header">
+                <div class="zone-modal-title" id="zoneModalTitle">Zone A1 - 3D View</div>
+                <button class="zone-modal-close" onclick="closeZoneModal()">×</button>
+            </div>
+            <div class="zone-modal-body">
+                <div class="zone-3d-container" id="zone3dView"></div>
+                <div class="zone-view-controls">
+                    <button class="zone-view-btn active" onclick="setZoneView('isometric')">Isometric</button>
+                    <button class="zone-view-btn" onclick="setZoneView('top')">Top View</button>
+                    <button class="zone-view-btn" onclick="setZoneView('walkthrough')">Walkthrough</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2025 Team SparkVIT - Walmart WalSpectra, Phantom Inventory Detector
+    </footer>
+</body>
+
+</html>
