@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WalSpectra</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff700, #1686b6);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .walmart-logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .walmart-logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            height: 90vh;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            margin-top: 60px;
+            /* Added space for logo */
+        }
+
+        /* Rest of your existing CSS remains unchanged */
+        .screen {
+            display: none;
+            padding: 40px;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .screen.active {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #0071ce;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0071ce;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: #0071ce;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #005a9e;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: #ffc220;
+            color: #0071ce;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            color: #0071ce;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #0071ce, #ffc220);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero h2 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #0071ce;
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .heatmap-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .store-3d-container {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .store-3d-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.active {
+            background: #ffc220;
+            color: #0071ce;
+        }
+
+        .store-layout {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .zone {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .zone:hover {
+            transform: scale(1.1);
+        }
+
+        .screen {
+            transition: opacity 0.3s ease;
+        }
+
+        .zone-normal {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .zone-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .zone-high {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .zone-critical {
+            background: #721c24;
+            color: white;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .phantom-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .phantom-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .phantom-item h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .phantom-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .phantom-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0071ce;
+        }
+
+        .phantom-probability {
+            background: #ff6b6b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .phantom-location {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .mobile-app {
+            background: #333;
+            border-radius: 20px;
+            padding: 20px;
+            color: white;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .mobile-header {
+            text-align: center;
+            padding: 20px;
+            background: #0071ce;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .mission-card {
+            background: #444;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .mission-item {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .mission-location {
+            color: #ffc220;
+            font-weight: bold;
+        }
+
+        .action-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .roi-counter {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .counter-value {
+            font-size: 64px;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+            animation: countUp 2s ease-out;
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .integration-card {
+            background: linear-gradient(135deg, #839fd8, #005a9e);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .integration-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Walmart Logo at top left -->
+    <div class="walmart-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Walmart_logo.svg/1200px-Walmart_logo.svg.png"
+            alt="Walmart Logo">
+    </div>
+
+    <div class="container">
+
+        <!-- Screen 1: Problem -->
+        <div class="screen active" id="screen1">
+            <div class="header">
+                <div class="logo">WalSpectra</div>
+                <div class="nav-buttons">
+                    <button class="nav-btn active" onclick="showScreen(1)">Problem</button>
+                    <button class="nav-btn" onclick="showScreen(2)">AI Detection</button>
+                    <button class="nav-btn" onclick="showScreen(3)">Recovery</button>
+                    <button class="nav-btn" onclick="showScreen(4)">ROI</button>
+                    <button class="nav-btn" onclick="showScreen(5)">Integration</button>
+                </div>
+            </div>
+
+            <div class="hero">
+                <h1>Walmart's Inventory Loss Detector</h1>
+                <h2>Store #1247 (Gurugram - Delhi NCR, India Region) - Current Status</h2>
+                <p>Items do exist in system but are physically lost in operational black holes</p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">₹ 60,61,262</div>
+                    <div class="metric-label">Phantom Inventory Value</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">156</div>
+                    <div class="metric-label">Items Lost in System</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">23</div>
+                    <div class="metric-label">Customer Complaints This Week</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">12 days</div>
+                    <div class="metric-label">Average Phantom Dwell Time</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 2: AI Detection -->
+        <div class="screen" id="screen2">
+            <div class="header">
+                <div class="logo">WalSpectra</div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showScreen(1)">Problem</button>
+                    <button class="nav-btn active" onclick="showScreen(2)">AI Detection</button>
+                    <button class="nav-btn" onclick="showScreen(3)">Recovery</button>
+                    <button class="nav-btn" onclick="showScreen(4)">ROI</button>
+                    <button class="nav-btn" onclick="showScreen(5)">Integration</button>
+                </div>
+            </div>
+
+            <div class="hero">
+                <h2>Inventory Phantom Detection Exclusively Designed for Walmart</h2>
+                <p>3D visualization of phantom inventory hotspots</p>
+            </div>
+
+            <div class="store-3d-container">
+                <div class="store-3d-controls">
+                    <button class="control-btn active" onclick="toggle3DView('isometric')">Isometric</button>
+                    <button class="control-btn" onclick="toggle3DView('top')">Top View</button>
+                    <button class="control-btn" onclick="toggle3DView('walkthrough')">Walkthrough</button>
+                </div>
+                <canvas id="store3d" style="width: 100%; height: 100%;"></canvas>
+            </div>
+
+
+            <div class="heatmap-container">
+                <h3 style="text-align: center; margin-bottom: 20px;">Store Layout - Phantom Hotspots</h3>
+                <div class="store-layout">
+                    <div class="zone zone-normal">A1</div>
+                    <div class="zone zone-medium">A2</div>
+                    <div class="zone zone-normal">A3</div>
+                    <div class="zone zone-high">A4</div>
+                    <div class="zone zone-normal">A5</div>
+                    <div class="zone zone-normal">A6</div>
+                    <div class="zone zone-medium">A7</div>
+                    <div class="zone zone-normal">A8</div>
+
+                    <div class="zone zone-normal">B1</div>
+                    <div class="zone zone-critical">B2</div>
+                    <div class="zone zone-high">B3</div>
+                    <div class="zone zone-normal">B4</div>
+                    <div class="zone zone-normal">B5</div>
+                    <div class="zone zone-high">B6</div>
+                    <div class="zone zone-normal">B7</div>
+                    <div class="zone zone-medium">B8</div>
+
+                    <div class="zone zone-medium">C1</div>
+                    <div class="zone zone-normal">C2</div>
+                    <div class="zone zone-normal">C3</div>
+                    <div class="zone zone-critical">C4</div>
+                    <div class="zone zone-high">C5</div>
+                    <div class="zone zone-normal">C6</div>
+                    <div class="zone zone-normal">C7</div>
+                    <div class="zone zone-normal">C8</div>
+
+                    <div class="zone zone-normal">D1</div>
+                    <div class="zone zone-medium">D2</div>
+                    <div class="zone zone-normal">D3</div>
+                    <div class="zone zone-normal">D4</div>
+                    <div class="zone zone-medium">D5</div>
+                    <div class="zone zone-high">D6</div>
+                    <div class="zone zone-critical">D7</div>
+                    <div class="zone zone-normal">D8</div>
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color zone-normal"></div>
+                        <span>Normal (0-5 items)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color zone-medium"></div>
+                        <span>Medium (6-15 items)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color zone-high"></div>
+                        <span>High (16-25 items)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color zone-critical"></div>
+                        <span>Critical (25+ items)</span>
+                    </div>
+                </div>
+            </div>
+            <div
+                style="background: #7a1e01; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; margin-top: 30px;">
+                <h3 style="margin: 0; display: flex; align-items: center; gap: 10px;">
+                    <span
+                        style="background: #c00a0a; width: 12px; height: 12px; border-radius: 50%; display: inline-block;"></span>
+                    CRITICAL (25+ items, Expensive Cost) - Expensive gadgets and items
+                </h3>
+            </div>
+            <div class="phantom-list">
+                <div class="phantom-item">
+                    <h3>Samsung 75" QLED 4K Smart TV</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹1,11,529</span>
+                        <span class="phantom-probability">94% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Electronics display B2</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>LG French Door Refrigerator (28 cu ft)</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹1,63,048</span>
+                        <span class="phantom-probability">91% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Appliances section C4</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Whirlpool Front Load Washer & Dryer Set</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹1,37,284</span>
+                        <span class="phantom-probability">88% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Appliances section D7</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>KitchenAid Professional Stand Mixer</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹34,254</span>
+                        <span class="phantom-probability">85% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Kitchen appliances B2</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Dyson V15 Detect Cordless Vacuum</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹64,322</span>
+                        <span class="phantom-probability">92% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Home appliances C4</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Weber Genesis II Gas Grill</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹77,189</span>
+                        <span class="phantom-probability">79% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Garden section D7</div>
+                </div>
+            </div>
+
+            <!-- HIGH Priority -->
+            <div
+                style="background: #ff5722; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; margin-top: 30px;">
+                <h3 style="margin: 0; display: flex; align-items: center; gap: 10px;">
+                    <span
+                        style="background: #ff8800; width: 12px; height: 12px; border-radius: 50%; display: inline-block;"></span>
+                    HIGH (16-25 items, Premium Cost) - Quality appliances and storage solutions
+                </h3>
+            </div>
+
+            <div class="phantom-list">
+                <div class="phantom-item">
+                    <h3>Ninja Foodi 14-in-1 Pressure Cooker</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹21,461</span>
+                        <span class="phantom-probability">87% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Kitchen appliances A4</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Shark Navigator Lift-Away Vacuum</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹15,367</span>
+                        <span class="phantom-probability">83% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Home appliances B6</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Keurig K-Elite Coffee Maker</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹14,595</span>
+                        <span class="phantom-probability">90% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Kitchen appliances C5</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>TINANA 4-Tier 124QT Storage Containers</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹6,262</span>
+                        <span class="phantom-probability">76% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Storage section D6</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Instant Pot Duo 8-Quart Multi-Cooker</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹8,585</span>
+                        <span class="phantom-probability">85% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Kitchen appliances A4</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Black+Decker 4-Slice Toaster Oven</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹7,727</span>
+                        <span class="phantom-probability">81% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Kitchen appliances B6</div>
+                </div>
+            </div>
+
+            <!-- MEDIUM Priority -->
+            <div
+                style="background: #ffc107; color: #333; padding: 15px; border-radius: 10px; margin-bottom: 20px; margin-top: 30px;">
+                <h3 style="margin: 0; display: flex; align-items: center; gap: 10px;">
+                    <span
+                        style="background: #ffdd00; width: 12px; height: 12px; border-radius: 50%; display: inline-block;"></span>
+                    MEDIUM (6-15 items, Mid-range Cost) - Popular storage and kitchen items
+                </h3>
+            </div>
+
+            <div class="phantom-list">
+                <div class="phantom-item">
+                    <h3>17 QT Clear Storage Bins with Lids (6-Pack)</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹4,170</span>
+                        <span class="phantom-probability">78% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Storage section A2</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>OXO Softworks Pop 5-Piece Container Set</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹4,121</span>
+                        <span class="phantom-probability">82% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Kitchen storage C1</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Taimasi 34-Piece Glass Food Storage</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹3,434</span>
+                        <span class="phantom-probability">74% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Kitchen storage A7</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>GreenPan 12-Inch Electric Skillet</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹5,151</span>
+                        <span class="phantom-probability">86% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Kitchen appliances D2</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Beautiful 6-Piece Silicone Kitchen Utensil Set</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹2,576</span>
+                        <span class="phantom-probability">71% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Kitchen accessories D5</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Werseon 11-Inch Storage Cubes (Set of 6)</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹2,317</span>
+                        <span class="phantom-probability">69% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Storage section B8</div>
+                </div>
+            </div>
+
+            <!-- NORMAL Priority -->
+            <div
+                style="background: #4caf50; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; margin-top: 30px;">
+                <h3 style="margin: 0; display: flex; align-items: center; gap: 10px;">
+                    <span
+                        style="background: #66bb6a; width: 12px; height: 12px; border-radius: 50%; display: inline-block;"></span>
+                    NORMAL (0-5 items, Budget-friendly) - Essential storage and basic items
+                </h3>
+            </div>
+
+            <div class="phantom-list">
+                <div class="phantom-item">
+                    <h3>Taimasi 8-Piece Glass Food Storage</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹2,146</span>
+                        <span class="phantom-probability">67% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Kitchen storage A1</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Walchoice Mixing Bowls with Lids (Set of 6)</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹1,717</span>
+                        <span class="phantom-probability">72% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Kitchen accessories A3</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Gped Glass Mason Jar Pitcher</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹1,459</span>
+                        <span class="phantom-probability">65% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Kitchen accessories A5</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Rubbermaid TakeAlongs 40-Piece Set</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹1,374</span>
+                        <span class="phantom-probability">68% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Storage section A6</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Pyrex Glass Storage Containers (Set of 4)</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹601</span>
+                        <span class="phantom-probability">64% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Kitchen storage A8</div>
+                </div>
+
+                <div class="phantom-item">
+                    <h3>Sterilite Storage Organizers</h3>
+                    <div class="phantom-details">
+                        <span class="phantom-price">₹86</span>
+                        <span class="phantom-probability">58% Match</span>
+                    </div>
+                    <div class="phantom-location">📍 Last seen: Budget storage B1</div>
+                </div>
+            </div>
+        </div>
+        <!-- Screen 3: Recovery App -->
+        <div class="screen" id="screen3">
+            <div class="header">
+                <div class="logo">WalSpectra</div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showScreen(1)">Problem</button>
+                    <button class="nav-btn" onclick="showScreen(2)">AI Detection</button>
+                    <button class="nav-btn active" onclick="showScreen(3)">Recovery</button>
+                    <button class="nav-btn" onclick="showScreen(4)">ROI</button>
+                    <button class="nav-btn" onclick="showScreen(5)">Integration</button>
+                </div>
+            </div>
+
+            <div class="hero">
+                <h2>Things Recovered</h2>
+                <p>Recovery checklist designed for store associates and staff</p>
+            </div>
+
+            <div class="mobile-app">
+                <div class="mobile-header">
+                    <h3>Active Store Recoveries - Gurugram </h3>
+                    <p>Very High Priority Recovery</p>
+                </div>
+
+                <div class="mission-card">
+                    <div class="mission-item">
+                        <strong>Target:</strong> Samsung 75" QLED 4K Smart TV
+                    </div>
+                    <div class="mission-item">
+                        <strong>Value:</strong> ₹1,11,529
+                    </div>
+                    <div class="mission-item">
+                        <strong>Search Zone:</strong> <span class="mission-location">Electronics B2</span>
+                    </div>
+                    <div class="mission-item">
+                        <strong>Specific Location:</strong> Behind Apple iPhone 16, left side
+                    </div>
+                    <div class="mission-item">
+                        <strong>AI Confidence:</strong> 87%
+                    </div>
+                    <button class="action-btn" onclick="completeRecovery()">Found!</button>
+                </div>
+
+                <div class="mission-card">
+                    <div class="mission-item">
+                        <strong>Next Target:</strong> Shark Navigator Lift-Away Vacuum
+                    </div>
+                    <div class="mission-item">
+                        <strong>Value:</strong> ₹15,367
+                    </div>
+                    <div class="mission-item">
+                        <strong>Search Zone:</strong> <span class="mission-location">Home appliances B6</span>
+                    </div>
+                    <button class="action-btn" style="background: #6c757d;">Queue Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 4: ROI Dashboard -->
+        <div class="screen" id="screen4">
+            <div class="header">
+                <div class="logo">WalSpectra</div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showScreen(1)">Problem</button>
+                    <button class="nav-btn" onclick="showScreen(2)">AI Detection</button>
+                    <button class="nav-btn" onclick="showScreen(3)">Recovery</button>
+                    <button class="nav-btn active" onclick="showScreen(4)">ROI</button>
+                    <button class="nav-btn" onclick="showScreen(5)">Integration</button>
+                </div>
+            </div>
+
+            <div class="hero">
+                <h2>Revenue Recovery Impact</h2>
+                <p>Real-time tracking of phantom inventory recovery</p>
+            </div>
+
+            <div class="roi-counter">
+                <div class="counter-value" id="revenueCounter">₹0</div>
+                <div class="metric-label">Revenue Recovered Today</div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">23</div>
+                    <div class="metric-label">Items Recovered Today</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">₹42,91,275</div>
+                    <div class="metric-label">Total Recovery (30 days)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">95%</div>
+                    <div class="metric-label">AI Accuracy Rate</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">340%</div>
+                    <div class="metric-label">ROI First Month</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 5: Integration -->
+        <div class="screen" id="screen5">
+            <div class="header">
+                <div class="logo">WalSpectra</div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showScreen(1)">Problem</button>
+                    <button class="nav-btn" onclick="showScreen(2)">AI Detection</button>
+                    <button class="nav-btn" onclick="showScreen(3)">Recovery</button>
+                    <button class="nav-btn" onclick="showScreen(4)">ROI</button>
+                    <button class="nav-btn active" onclick="showScreen(5)">Integration</button>
+                </div>
+            </div>
+
+
+            <div class="hero">
+                <h2>Ready for Walmart's Impact at Scale</h2>
+                <p>Seamless integration with existing ecosystem</p>
+            </div>
+
+            <div class="integration-grid">
+                <div class="integration-card">
+                    <div class="integration-icon">🏪</div>
+                    <h3>4,700+ Stores</h3>
+                    <p>Scalable to entire Walmart network</p>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-icon">🔗</div>
+                    <h3>System Integration</h3>
+                    <p>Works with existing POS and inventory systems</p>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-icon">📱</div>
+                    <h3>Mobile Ready</h3>
+                    <p>Native app for store associates</p>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-icon">🚀</div>
+                    <h3>Quick Deploy</h3>
+                    <p>30 days implementation timeline</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <h3 style="color: #0071ce; margin-bottom: 20px;">This isn't just finding lost items</h3>
+                <h2 style="color: #333;">It's recovering lost revenue, one phantom at a time.</h2>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let currentScreen = 1;
+        let revenueCounter = 0;
+        let scene, camera, renderer, controls;
+        let storeObjects = [];
+        let currentView = 'isometric';
+        let animationId;
+
+        // 3D Store Visualization
+        function init3DStore() {
+            const container = document.getElementById('store3d');
+            if (!container) return;
+
+            // Scene setup
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x1a1a1a);
+
+            // Camera setup
+            camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(20, 15, 20);
+            camera.lookAt(0, 0, 0);
+
+            // Renderer setup
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            container.appendChild(renderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 10, 5);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
+            scene.add(directionalLight);
+
+            // Store floor
+            const floorGeometry = new THREE.PlaneGeometry(32, 16);
+            const floorMaterial = new THREE.MeshLambertMaterial({ color: 0x808080 });
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.receiveShadow = true;
+            scene.add(floor);
+
+            // Create store zones with phantom data
+            const phantomData = [
+                { x: 0, z: 0, level: 'normal', count: 2 },
+                { x: 4, z: 0, level: 'medium', count: 8 },
+                { x: 8, z: 0, level: 'normal', count: 1 },
+                { x: 12, z: 0, level: 'high', count: 18 },
+                { x: 16, z: 0, level: 'normal', count: 3 },
+                { x: 20, z: 0, level: 'normal', count: 1 },
+                { x: 24, z: 0, level: 'medium', count: 7 },
+                { x: 28, z: 0, level: 'normal', count: 2 },
+
+                { x: 0, z: -4, level: 'normal', count: 1 },
+                { x: 4, z: -4, level: 'critical', count: 32 },
+                { x: 8, z: -4, level: 'high', count: 19 },
+                { x: 12, z: -4, level: 'normal', count: 4 },
+                { x: 16, z: -4, level: 'normal', count: 2 },
+                { x: 20, z: -4, level: 'high', count: 16 },
+                { x: 24, z: -4, level: 'normal', count: 3 },
+                { x: 28, z: -4, level: 'medium', count: 9 },
+
+                { x: 0, z: -8, level: 'medium', count: 11 },
+                { x: 4, z: -8, level: 'normal', count: 3 },
+                { x: 8, z: -8, level: 'normal', count: 2 },
+                { x: 12, z: -8, level: 'critical', count: 28 },
+                { x: 16, z: -8, level: 'high', count: 21 },
+                { x: 20, z: -8, level: 'normal', count: 1 },
+                { x: 24, z: -8, level: 'normal', count: 4 },
+                { x: 28, z: -8, level: 'normal', count: 2 },
+
+                { x: 0, z: -12, level: 'normal', count: 1 },
+                { x: 4, z: -12, level: 'medium', count: 12 },
+                { x: 8, z: -12, level: 'normal', count: 3 },
+                { x: 12, z: -12, level: 'normal', count: 2 },
+                { x: 16, z: -12, level: 'medium', count: 8 },
+                { x: 20, z: -12, level: 'high', count: 17 },
+                { x: 24, z: -12, level: 'critical', count: 35 },
+                { x: 28, z: -12, level: 'normal', count: 1 }
+            ];
+
+            // Create shelves and phantom indicators
+            phantomData.forEach(zone => {
+                // Shelf structure
+                const shelfGeometry = new THREE.BoxGeometry(3, 4, 2);
+                const shelfMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
+                const shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
+                shelf.position.set(zone.x - 14, 2, zone.z + 6);
+                shelf.castShadow = true;
+                shelf.receiveShadow = true;
+                scene.add(shelf);
+
+                // Phantom indicator (glowing cylinder)
+                const phantomHeight = getPhantomHeight(zone.level);
+                const phantomColor = getPhantomColor(zone.level);
+
+                const phantomGeometry = new THREE.CylinderGeometry(0.5, 0.5, phantomHeight, 8);
+                const phantomMaterial = new THREE.MeshLambertMaterial({
+                    color: phantomColor,
+                    emissive: phantomColor,
+                    emissiveIntensity: 0.3
+                });
+                const phantom = new THREE.Mesh(phantomGeometry, phantomMaterial);
+                phantom.position.set(zone.x - 14, 4 + phantomHeight / 2, zone.z + 6);
+                scene.add(phantom);
+
+                // Add floating count label
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = 64;
+                canvas.height = 32;
+                context.font = '20px Arial';
+                context.fillStyle = 'white';
+                context.textAlign = 'center';
+                context.fillText(zone.count.toString(), 32, 20);
+
+                const texture = new THREE.CanvasTexture(canvas);
+                const labelMaterial = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    transparent: true
+                });
+                const labelGeometry = new THREE.PlaneGeometry(2, 1);
+                const label = new THREE.Mesh(labelGeometry, labelMaterial);
+                label.position.set(zone.x - 14, 6 + phantomHeight, zone.z + 6);
+                label.lookAt(camera.position);
+                scene.add(label);
+
+                storeObjects.push({ shelf, phantom, label, zone });
+            });
+
+            // Add store sections
+            addStoreSection(-12, 6, 8, 2, 'Electronics', 0x4169E1);
+            addStoreSection(-4, 6, 8, 2, 'Clothing', 0x32CD32);
+            addStoreSection(4, 6, 8, 2, 'Grocery', 0xFF6347);
+            addStoreSection(12, 6, 8, 2, 'Home & Garden', 0x9370DB);
+
+            animate3D();
+        }
+
+        function addStoreSection(x, z, width, depth, name, color) {
+            const sectionGeometry = new THREE.BoxGeometry(width, 0.1, depth);
+            const sectionMaterial = new THREE.MeshLambertMaterial({ color: color, transparent: true, opacity: 0.3 });
+            const section = new THREE.Mesh(sectionGeometry, sectionMaterial);
+            section.position.set(x, 0.05, z);
+            scene.add(section);
+
+            // Section label
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 256;
+            canvas.height = 64;
+            context.font = '24px Arial';
+            context.fillStyle = 'white';
+            context.textAlign = 'center';
+            context.fillText(name, 128, 32);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const labelMaterial = new THREE.MeshBasicMaterial({
+                map: texture,
+                transparent: true
+            });
+            const labelGeometry = new THREE.PlaneGeometry(4, 1);
+            const label = new THREE.Mesh(labelGeometry, labelMaterial);
+            label.position.set(x, 8, z);
+            label.lookAt(camera.position);
+            scene.add(label);
+        }
+
+        function getPhantomHeight(level) {
+            switch (level) {
+                case 'normal': return 0.5;
+                case 'medium': return 1.5;
+                case 'high': return 2.5;
+                case 'critical': return 4;
+                default: return 0.5;
+            }
+        }
+
+        function getPhantomColor(level) {
+            switch (level) {
+                case 'normal': return 0x4CAF50;
+                case 'medium': return 0xFFC107;
+                case 'high': return 0xFF5722;
+                case 'critical': return 0xF44336;
+                default: return 0x4CAF50;
+            }
+        }
+
+        function animate3D() {
+            animationId = requestAnimationFrame(animate3D);
+
+            // Rotate phantom indicators
+            storeObjects.forEach(obj => {
+                if (obj.phantom) {
+                    obj.phantom.rotation.y += 0.01;
+                }
+            });
+
+            // Camera animations based on current view
+            if (currentView === 'walkthrough') {
+                const time = Date.now() * 0.001;
+                camera.position.x = Math.cos(time * 0.5) * 25;
+                camera.position.z = Math.sin(time * 0.5) * 25;
+                camera.lookAt(0, 0, 0);
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        function toggle3DView(view) {
+            currentView = view;
+
+            // Update button states
+            document.querySelectorAll('.control-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Animate camera to new position
+            switch (view) {
+                case 'isometric':
+                    animateCamera(20, 15, 20);
+                    break;
+                case 'top':
+                    animateCamera(0, 30, 0);
+                    break;
+                case 'walkthrough':
+                    animateCamera(25, 5, 0);
+                    break;
+            }
+        }
+
+        function animateCamera(x, y, z) {
+            const startPos = {
+                x: camera.position.x,
+                y: camera.position.y,
+                z: camera.position.z
+            };
+
+            const targetPos = { x, y, z };
+            const duration = 1000;
+            const startTime = Date.now();
+
+            function updateCamera() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Smooth easing
+                const eased = 1 - Math.pow(1 - progress, 3);
+
+                camera.position.x = startPos.x + (targetPos.x - startPos.x) * eased;
+                camera.position.y = startPos.y + (targetPos.y - startPos.y) * eased;
+                camera.position.z = startPos.z + (targetPos.z - startPos.z) * eased;
+
+                camera.lookAt(0, 0, 0);
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCamera);
+                }
+            }
+
+            updateCamera();
+        }
+
+        function showScreen(screenNum) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+
+            // Show target screen
+            document.getElementById('screen' + screenNum).classList.add('active');
+
+            // Update navigation buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-btn')[screenNum - 1].classList.add('active');
+
+            currentScreen = screenNum;
+
+            // Initialize 3D store on screen 2
+            if (screenNum === 2) {
+                setTimeout(() => {
+                    init3DStore();
+                }, 100);
+            }
+
+            // Start revenue counter animation on ROI screen
+            if (screenNum === 4) {
+                animateRevenue();
+            }
+
+            // Clean up 3D scene when leaving screen 2
+            if (currentScreen !== 2 && renderer) {
+                cancelAnimationFrame(animationId);
+                const container = document.getElementById('store3d');
+                if (container && renderer.domElement) {
+                    container.removeChild(renderer.domElement);
+                }
+                renderer = null;
+                scene = null;
+                camera = null;
+                storeObjects = [];
+            }
+        }
+
+        function animateRevenue() {
+            const counter = document.getElementById('revenueCounter');
+            const target = 725000;
+            const duration = 2000;
+            const steps = 50;
+            const increment = target / steps;
+            const stepTime = duration / steps;
+
+            let current = 0;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                counter.textContent = '₹' + Math.floor(current).toLocaleString();
+            }, stepTime);
+        }
+
+        function completeRecovery() {
+            const button = event.target;
+            button.textContent = 'Item Recovered!';
+            button.style.background = '#28a745';
+
+            // Animate success
+            setTimeout(() => {
+                button.style.background = '#6c757d';
+                button.textContent = 'Mission Complete';
+            }, 1500);
+        }
+
+        // Auto-advance demo for presentation (optional)
+        function startAutoDemo() {
+            const screens = [1, 2, 3, 4, 5];
+            let currentIndex = 0;
+
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % screens.length;
+                showScreen(screens[currentIndex]);
+            }, 30000); // 30 seconds per screen
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            showScreen(1);
+        });
+
+    </script>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            color: #171d14;
+        }
+    </style>
+
+    <body>
+        <main>
+            <!-- Your page content here -->
+        </main>
+        <footer>
+            © 2025 Team SparkVIT - Walmart WalSpectra, Phantom Inventory Detector
+        </footer>
+    </body>
+</body>
+
+</html>
