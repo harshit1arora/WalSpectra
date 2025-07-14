@@ -38,7 +38,7 @@
             max-width: 1200px;
             height: 90vh;
             background: white;
-            border-radius: 10px;
+            border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             position: relative;
@@ -66,9 +66,131 @@
             }
 
             to {
-                opacity: 1;
-                transform: translateX(0);
+                opacity: 1, transform: translateX(0);
             }
+        }
+
+        /* 3D Zone Modal Styles */
+        .zone-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .zone-modal-content {
+            background: white;
+            width: 80%;
+            max-width: 800px;
+            height: 80%;
+            border-radius: 15px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .zone-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #0071ce;
+            color: white;
+        }
+
+        .zone-modal-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .zone-modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .zone-modal-body {
+            flex: 1;
+            position: relative;
+        }
+
+        .zone-3d-container {
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+        }
+
+        .zone-view-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+
+        .zone-view-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .zone-view-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .zone-view-btn.active {
+            background: #ffc220;
+            color: #0071ce;
+        }
+
+        /* Make the zones clickable */
+        .zone {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .zone:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0);
+            transition: background 0.2s;
+        }
+
+        .zone:hover:after {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .zone:hover {
+            transform: scale(1.1);
         }
 
         .header {
@@ -238,6 +360,23 @@
             font-weight: bold;
             cursor: pointer;
             transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .zone:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0);
+            transition: background 0.2s;
+        }
+
+        .zone:hover:after {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .zone:hover {
@@ -247,6 +386,7 @@
         .screen {
             transition: opacity 0.3s ease;
         }
+
 
         .zone-normal {
             background: #e8f5e8;
@@ -439,6 +579,7 @@
 
     <div class="container">
 
+
         <!-- Screen 1: Problem -->
         <div class="screen active" id="screen1">
             <div class="header">
@@ -509,41 +650,41 @@
             <div class="heatmap-container">
                 <h3 style="text-align: center; margin-bottom: 20px;">Store Layout - Phantom Hotspots</h3>
                 <div class="store-layout">
-                    <div class="zone zone-normal">A1</div>
-                    <div class="zone zone-medium">A2</div>
-                    <div class="zone zone-normal">A3</div>
-                    <div class="zone zone-high">A4</div>
-                    <div class="zone zone-normal">A5</div>
-                    <div class="zone zone-normal">A6</div>
-                    <div class="zone zone-medium">A7</div>
-                    <div class="zone zone-normal">A8</div>
+                    <div class="zone zone-normal" data-zone="A1" onclick="openZoneModal('A1')">A1</div>
+                    <div class="zone zone-medium" data-zone="A2" onclick="openZoneModal('A2')">A2</div>
+                    <div class="zone zone-normal" data-zone="A3" onclick="openZoneModal('A3')">A3</div>
+                    <div class="zone zone-high" data-zone="A4" onclick="openZoneModal('A4')">A4</div>
+                    <div class="zone zone-normal" data-zone="A5" onclick="openZoneModal('A5')">A5</div>
+                    <div class="zone zone-normal" data-zone="A6" onclick="openZoneModal('A6')">A6</div>
+                    <div class="zone zone-medium" data-zone="A7" onclick="openZoneModal('A7')">A7</div>
+                    <div class="zone zone-normal" data-zone="A8" onclick="openZoneModal('A8')">A8</div>
 
-                    <div class="zone zone-normal">B1</div>
-                    <div class="zone zone-critical">B2</div>
-                    <div class="zone zone-high">B3</div>
-                    <div class="zone zone-normal">B4</div>
-                    <div class="zone zone-normal">B5</div>
-                    <div class="zone zone-high">B6</div>
-                    <div class="zone zone-normal">B7</div>
-                    <div class="zone zone-medium">B8</div>
+                    <div class="zone zone-normal" data-zone="B1" onclick="openZoneModal('B1')">B1</div>
+                    <div class="zone zone-critical" data-zone="B2" onclick="openZoneModal('B2')">B2</div>
+                    <div class="zone zone-high" data-zone="B3" onclick="openZoneModal('B3')">B3</div>
+                    <div class="zone zone-normal" data-zone="B4" onclick="openZoneModal('B4')">B4</div>
+                    <div class="zone zone-normal" data-zone="B5" onclick="openZoneModal('B5')">B5</div>
+                    <div class="zone zone-high" data-zone="B6" onclick="openZoneModal('B6')">B6</div>
+                    <div class="zone zone-normal" data-zone="B7" onclick="openZoneModal('B7')">B7</div>
+                    <div class="zone zone-medium" data-zone="B8" onclick="openZoneModal('B8')">B8</div>
 
-                    <div class="zone zone-medium">C1</div>
-                    <div class="zone zone-normal">C2</div>
-                    <div class="zone zone-normal">C3</div>
-                    <div class="zone zone-critical">C4</div>
-                    <div class="zone zone-high">C5</div>
-                    <div class="zone zone-normal">C6</div>
-                    <div class="zone zone-normal">C7</div>
-                    <div class="zone zone-normal">C8</div>
+                    <div class="zone zone-medium" data-zone="C1" onclick="openZoneModal('C1')">C1</div>
+                    <div class="zone zone-normal" data-zone="C2" onclick="openZoneModal('C2')">C2</div>
+                    <div class="zone zone-normal" data-zone="C3" onclick="openZoneModal('C3')">C3</div>
+                    <div class="zone zone-critical" data-zone="C4" onclick="openZoneModal('C4')">C4</div>
+                    <div class="zone zone-high" data-zone="C5" onclick="openZoneModal('C5')">C5</div>
+                    <div class="zone zone-normal" data-zone="C6" onclick="openZoneModal('C6')">C6</div>
+                    <div class="zone zone-normal" data-zone="C7" onclick="openZoneModal('C7')">C7</div>
+                    <div class="zone zone-normal" data-zone="C8" onclick="openZoneModal('C8')">C8</div>
 
-                    <div class="zone zone-normal">D1</div>
-                    <div class="zone zone-medium">D2</div>
-                    <div class="zone zone-normal">D3</div>
-                    <div class="zone zone-normal">D4</div>
-                    <div class="zone zone-medium">D5</div>
-                    <div class="zone zone-high">D6</div>
-                    <div class="zone zone-critical">D7</div>
-                    <div class="zone zone-normal">D8</div>
+                    <div class="zone zone-normal" data-zone="D1" onclick="openZoneModal('D1')">D1</div>
+                    <div class="zone zone-medium" data-zone="D2" onclick="openZoneModal('D2')">D2</div>
+                    <div class="zone zone-normal" data-zone="D3" onclick="openZoneModal('D3')">D3</div>
+                    <div class="zone zone-normal" data-zone="D4" onclick="openZoneModal('D4')">D4</div>
+                    <div class="zone zone-medium" data-zone="D5" onclick="openZoneModal('D5')">D5</div>
+                    <div class="zone zone-high" data-zone="D6" onclick="openZoneModal('D6')">D6</div>
+                    <div class="zone zone-critical" data-zone="D7" onclick="openZoneModal('D7')">D7</div>
+                    <div class="zone zone-normal" data-zone="D8" onclick="openZoneModal('D8')">D8</div>
                 </div>
 
                 <div class="legend">
@@ -918,7 +1059,7 @@
                     <div class="metric-label">Total Recovery (30 days)</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value">95%</div>
+                    <div class="metric-value">89%</div>
                     <div class="metric-label">AI Accuracy Rate</div>
                 </div>
                 <div class="metric-card">
@@ -989,6 +1130,8 @@
         let storeObjects = [];
         let currentView = 'isometric';
         let animationId;
+        let zoneScene, zoneCamera, zoneRenderer, zoneAnimationId;
+        let currentZoneId = '';
 
         // 3D Store Visualization
         function init3DStore() {
@@ -1008,191 +1151,98 @@
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
             renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             container.appendChild(renderer.domElement);
 
             // Lighting
-            const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
             scene.add(ambientLight);
 
             const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(10, 10, 5);
+            directionalLight.position.set(10, 15, 10);
             directionalLight.castShadow = true;
-            directionalLight.shadow.mapSize.width = 2048;
-            directionalLight.shadow.mapSize.height = 2048;
             scene.add(directionalLight);
 
-            // Store floor
-            const floorGeometry = new THREE.PlaneGeometry(32, 16);
+            // Floor
+            const floorGeometry = new THREE.PlaneGeometry(50, 30);
             const floorMaterial = new THREE.MeshLambertMaterial({ color: 0x808080 });
             const floor = new THREE.Mesh(floorGeometry, floorMaterial);
             floor.rotation.x = -Math.PI / 2;
             floor.receiveShadow = true;
             scene.add(floor);
 
-            // Create store zones with phantom data
-            const phantomData = [
-                { x: 0, z: 0, level: 'normal', count: 2 },
-                { x: 4, z: 0, level: 'medium', count: 8 },
-                { x: 8, z: 0, level: 'normal', count: 1 },
-                { x: 12, z: 0, level: 'high', count: 18 },
-                { x: 16, z: 0, level: 'normal', count: 3 },
-                { x: 20, z: 0, level: 'normal', count: 1 },
-                { x: 24, z: 0, level: 'medium', count: 7 },
-                { x: 28, z: 0, level: 'normal', count: 2 },
-
-                { x: 0, z: -4, level: 'normal', count: 1 },
-                { x: 4, z: -4, level: 'critical', count: 32 },
-                { x: 8, z: -4, level: 'high', count: 19 },
-                { x: 12, z: -4, level: 'normal', count: 4 },
-                { x: 16, z: -4, level: 'normal', count: 2 },
-                { x: 20, z: -4, level: 'high', count: 16 },
-                { x: 24, z: -4, level: 'normal', count: 3 },
-                { x: 28, z: -4, level: 'medium', count: 9 },
-
-                { x: 0, z: -8, level: 'medium', count: 11 },
-                { x: 4, z: -8, level: 'normal', count: 3 },
-                { x: 8, z: -8, level: 'normal', count: 2 },
-                { x: 12, z: -8, level: 'critical', count: 28 },
-                { x: 16, z: -8, level: 'high', count: 21 },
-                { x: 20, z: -8, level: 'normal', count: 1 },
-                { x: 24, z: -8, level: 'normal', count: 4 },
-                { x: 28, z: -8, level: 'normal', count: 2 },
-
-                { x: 0, z: -12, level: 'normal', count: 1 },
-                { x: 4, z: -12, level: 'medium', count: 12 },
-                { x: 8, z: -12, level: 'normal', count: 3 },
-                { x: 12, z: -12, level: 'normal', count: 2 },
-                { x: 16, z: -12, level: 'medium', count: 8 },
-                { x: 20, z: -12, level: 'high', count: 17 },
-                { x: 24, z: -12, level: 'critical', count: 35 },
-                { x: 28, z: -12, level: 'normal', count: 1 }
+            // Shelves and items
+            const shelfData = [
+                { x: -10, z: -5, items: 5 },
+                { x: -10, z: 5, items: 8 },
+                { x: 0, z: -5, items: 3 },
+                { x: 0, z: 5, items: 6 },
+                { x: 10, z: -5, items: 7 },
+                { x: 10, z: 5, items: 4 }
             ];
 
-            // Create shelves and phantom indicators
-            phantomData.forEach(zone => {
-                // Shelf structure
-                const shelfGeometry = new THREE.BoxGeometry(3, 4, 2);
+            shelfData.forEach(shelf => {
+                const shelfGeometry = new THREE.BoxGeometry(8, 10, 2);
                 const shelfMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
-                const shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
-                shelf.position.set(zone.x - 14, 2, zone.z + 6);
-                shelf.castShadow = true;
-                shelf.receiveShadow = true;
-                scene.add(shelf);
+                const shelfMesh = new THREE.Mesh(shelfGeometry, shelfMaterial);
+                shelfMesh.position.set(shelf.x, 5, shelf.z);
+                shelfMesh.castShadow = true;
+                shelfMesh.receiveShadow = true;
+                scene.add(shelfMesh);
 
-                // Phantom indicator (glowing cylinder)
-                const phantomHeight = getPhantomHeight(zone.level);
-                const phantomColor = getPhantomColor(zone.level);
+                for (let i = 0; i < shelf.items; i++) {
+                    const itemGeometry = new THREE.BoxGeometry(1, 1, 1);
+                    const itemMaterial = new THREE.MeshLambertMaterial({ color: new THREE.Color().setHSL(Math.random(), 0.7, 0.6) });
+                    const itemMesh = new THREE.Mesh(itemGeometry, itemMaterial);
 
-                const phantomGeometry = new THREE.CylinderGeometry(0.5, 0.5, phantomHeight, 8);
-                const phantomMaterial = new THREE.MeshLambertMaterial({
-                    color: phantomColor,
-                    emissive: phantomColor,
-                    emissiveIntensity: 0.3
-                });
-                const phantom = new THREE.Mesh(phantomGeometry, phantomMaterial);
-                phantom.position.set(zone.x - 14, 4 + phantomHeight / 2, zone.z + 6);
-                scene.add(phantom);
+                    const xOffset = Math.random() * 6 - 3;
+                    const yOffset = Math.random() * 8 - 4;
+                    const zOffset = Math.random() * 1 - 0.5;
 
-                // Add floating count label
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                canvas.width = 64;
-                canvas.height = 32;
-                context.font = '20px Arial';
-                context.fillStyle = 'white';
-                context.textAlign = 'center';
-                context.fillText(zone.count.toString(), 32, 20);
-
-                const texture = new THREE.CanvasTexture(canvas);
-                const labelMaterial = new THREE.MeshBasicMaterial({
-                    map: texture,
-                    transparent: true
-                });
-                const labelGeometry = new THREE.PlaneGeometry(2, 1);
-                const label = new THREE.Mesh(labelGeometry, labelMaterial);
-                label.position.set(zone.x - 14, 6 + phantomHeight, zone.z + 6);
-                label.lookAt(camera.position);
-                scene.add(label);
-
-                storeObjects.push({ shelf, phantom, label, zone });
+                    itemMesh.position.set(shelf.x + xOffset, yOffset + 5, shelf.z + zOffset);
+                    itemMesh.castShadow = true;
+                    scene.add(itemMesh);
+                }
             });
-
-            // Add store sections
-            addStoreSection(-12, 6, 8, 2, 'Electronics', 0x4169E1);
-            addStoreSection(-4, 6, 8, 2, 'Clothing', 0x32CD32);
-            addStoreSection(4, 6, 8, 2, 'Grocery', 0xFF6347);
-            addStoreSection(12, 6, 8, 2, 'Home & Garden', 0x9370DB);
 
             animate3D();
         }
 
-        function addStoreSection(x, z, width, depth, name, color) {
-            const sectionGeometry = new THREE.BoxGeometry(width, 0.1, depth);
-            const sectionMaterial = new THREE.MeshLambertMaterial({ color: color, transparent: true, opacity: 0.3 });
-            const section = new THREE.Mesh(sectionGeometry, sectionMaterial);
-            section.position.set(x, 0.05, z);
-            scene.add(section);
+        function createShelf(x, z, itemCount) {
+            // Shelf structure
+            const shelfGeometry = new THREE.BoxGeometry(10, 5, 2);
+            const shelfMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
+            const shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
+            shelf.position.set(x, 2.5, z);
+            shelf.castShadow = true;
+            shelf.receiveShadow = true;
+            scene.add(shelf);
 
-            // Section label
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            canvas.width = 256;
-            canvas.height = 64;
-            context.font = '24px Arial';
-            context.fillStyle = 'white';
-            context.textAlign = 'center';
-            context.fillText(name, 128, 32);
+            // Add items to the shelf
+            for (let i = 0; i < itemCount; i++) {
+                const itemGeometry = new THREE.BoxGeometry(1, 1, 1);
+                const itemMaterial = new THREE.MeshLambertMaterial({ color: new THREE.Color().setHSL(Math.random(), 0.7, 0.6) });
+                const item = new THREE.Mesh(itemGeometry, itemMaterial);
 
-            const texture = new THREE.CanvasTexture(canvas);
-            const labelMaterial = new THREE.MeshBasicMaterial({
-                map: texture,
-                transparent: true
-            });
-            const labelGeometry = new THREE.PlaneGeometry(4, 1);
-            const label = new THREE.Mesh(labelGeometry, labelMaterial);
-            label.position.set(x, 8, z);
-            label.lookAt(camera.position);
-            scene.add(label);
-        }
+                // Randomly position items on the shelf
+                const itemX = x + Math.random() * 8 - 4;
+                const itemY = Math.random() * 4 + 0.5;
+                const itemZ = z + Math.random() * 1 - 0.5;
 
-        function getPhantomHeight(level) {
-            switch (level) {
-                case 'normal': return 0.5;
-                case 'medium': return 1.5;
-                case 'high': return 2.5;
-                case 'critical': return 4;
-                default: return 0.5;
-            }
-        }
-
-        function getPhantomColor(level) {
-            switch (level) {
-                case 'normal': return 0x4CAF50;
-                case 'medium': return 0xFFC107;
-                case 'high': return 0xFF5722;
-                case 'critical': return 0xF44336;
-                default: return 0x4CAF50;
+                item.position.set(itemX, itemY, itemZ);
+                item.castShadow = true;
+                scene.add(item);
             }
         }
 
         function animate3D() {
             animationId = requestAnimationFrame(animate3D);
 
-            // Rotate phantom indicators
-            storeObjects.forEach(obj => {
-                if (obj.phantom) {
-                    obj.phantom.rotation.y += 0.01;
+            // Rotate items slightly for visual effect
+            scene.children.forEach(child => {
+                if (child.geometry && child.geometry.type === 'BoxGeometry') {
+                    child.rotation.y += 0.01;
                 }
             });
-
-            // Camera animations based on current view
-            if (currentView === 'walkthrough') {
-                const time = Date.now() * 0.001;
-                camera.position.x = Math.cos(time * 0.5) * 25;
-                camera.position.z = Math.sin(time * 0.5) * 25;
-                camera.lookAt(0, 0, 0);
-            }
 
             renderer.render(scene, camera);
         }
@@ -1243,6 +1293,273 @@
                 camera.position.z = startPos.z + (targetPos.z - startPos.z) * eased;
 
                 camera.lookAt(0, 0, 0);
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCamera);
+                }
+            }
+
+            updateCamera();
+        }
+
+        // Zone Modal Functions
+        function openZoneModal(zoneId) {
+            currentZoneId = zoneId;
+            const modal = document.getElementById('zoneModal');
+            const modalTitle = document.getElementById('zoneModalTitle');
+            modalTitle.textContent = `Zone ${zoneId} - 3D View`;
+
+            modal.style.display = 'flex';
+            initZone3D(zoneId);
+        }
+
+        function closeZoneModal() {
+            const modal = document.getElementById('zoneModal');
+            modal.style.display = 'none';
+
+            // Clean up 3D resources
+            if (zoneRenderer) {
+                cancelAnimationFrame(zoneAnimationId);
+                const container = document.getElementById('zone3dView');
+                if (container && zoneRenderer.domElement) {
+                    container.removeChild(zoneRenderer.domElement);
+                }
+                zoneRenderer = null;
+                zoneScene = null;
+                zoneCamera = null;
+            }
+        }
+
+        function initZone3D(zoneId) {
+            const container = document.getElementById('zone3dView');
+            if (!container) return;
+
+            // Clean up if there's an existing renderer
+            if (zoneRenderer) {
+                cancelAnimationFrame(zoneAnimationId);
+                if (container.contains(zoneRenderer.domElement)) {
+                    container.removeChild(zoneRenderer.domElement);
+                }
+                zoneRenderer = null;
+            }
+
+            // Scene setup
+            zoneScene = new THREE.Scene();
+            zoneScene.background = new THREE.Color(0x1a1a1a);
+
+            // Camera setup
+            zoneCamera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            zoneCamera.position.set(8, 6, 8);
+            zoneCamera.lookAt(0, 0, 0);
+
+            // Renderer setup
+            zoneRenderer = new THREE.WebGLRenderer({ antialias: true });
+            zoneRenderer.setSize(container.clientWidth, container.clientHeight);
+            zoneRenderer.shadowMap.enabled = true;
+            container.appendChild(zoneRenderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+            zoneScene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 10, 7);
+            directionalLight.castShadow = true;
+            zoneScene.add(directionalLight);
+
+            // Floor
+            const floorGeometry = new THREE.PlaneGeometry(10, 10);
+            const floorMaterial = new THREE.MeshLambertMaterial({ color: 0x808080 });
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.receiveShadow = true;
+            zoneScene.add(floor);
+
+            // Get zone data
+            const zoneLevelMap = {
+                'A1': 'normal', 'A2': 'medium', 'A3': 'normal', 'A4': 'high', 'A5': 'normal', 'A6': 'normal', 'A7': 'medium', 'A8': 'normal',
+                'B1': 'normal', 'B2': 'critical', 'B3': 'high', 'B4': 'normal', 'B5': 'normal', 'B6': 'high', 'B7': 'normal', 'B8': 'medium',
+                'C1': 'medium', 'C2': 'normal', 'C3': 'normal', 'C4': 'critical', 'C5': 'high', 'C6': 'normal', 'C7': 'normal', 'C8': 'normal',
+                'D1': 'normal', 'D2': 'medium', 'D3': 'normal', 'D4': 'normal', 'D5': 'medium', 'D6': 'high', 'D7': 'critical', 'D8': 'normal'
+            };
+
+            const zoneCountMap = {
+                'A1': 2, 'A2': 8, 'A3': 1, 'A4': 18, 'A5': 3, 'A6': 1, 'A7': 7, 'A8': 2,
+                'B1': 1, 'B2': 32, 'B3': 19, 'B4': 4, 'B5': 2, 'B6': 16, 'B7': 3, 'B8': 9,
+                'C1': 11, 'C2': 3, 'C3': 2, 'C4': 28, 'C5': 21, 'C6': 1, 'C7': 4, 'C8': 2,
+                'D1': 1, 'D2': 12, 'D3': 3, 'D4': 2, 'D5': 8, 'D6': 17, 'D7': 35, 'D8': 1
+            };
+
+            const level = zoneLevelMap[zoneId] || 'normal';
+            const count = zoneCountMap[zoneId] || 0;
+            const zoneColor = getPhantomColor(level);
+
+            // Add shelves
+            const shelfGeometry = new THREE.BoxGeometry(8, 4, 2);
+            const shelfMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
+            const shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
+            shelf.position.set(0, 2, 0);
+            shelf.castShadow = true;
+            shelf.receiveShadow = true;
+            zoneScene.add(shelf);
+
+            // Add products based on count (simplified visualization)
+            for (let i = 0; i < Math.min(count, 20); i++) {
+                const productGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
+                const productMaterial = new THREE.MeshLambertMaterial({
+                    color: new THREE.Color().setHSL(Math.random(), 0.7, 0.6)
+                });
+                const product = new THREE.Mesh(productGeometry, productMaterial);
+
+                // Position products on the shelf randomly
+                const x = Math.random() * 6 - 3;
+                const y = 4.3; // Just above the shelf
+                const z = Math.random() * 1.5 - 0.75;
+
+                product.position.set(x, y, z);
+                product.castShadow = true;
+                zoneScene.add(product);
+            }
+
+            // Add phantom indicator (glowing cylinder)
+            const phantomHeight = getPhantomHeight(level);
+            const phantomGeometry = new THREE.CylinderGeometry(0.5, 0.5, phantomHeight, 8);
+            const phantomMaterial = new THREE.MeshLambertMaterial({
+                color: zoneColor,
+                emissive: zoneColor,
+                emissiveIntensity: 0.5
+            });
+            const phantom = new THREE.Mesh(phantomGeometry, phantomMaterial);
+            phantom.position.set(0, 4 + phantomHeight / 2, 0);
+            zoneScene.add(phantom);
+
+            // Add zone label
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 256;
+            canvas.height = 128;
+            context.font = '60px Arial';
+            context.fillStyle = 'white';
+            context.textAlign = 'center';
+            context.fillText(zoneId, 128, 60);
+            context.font = '30px Arial';
+            context.fillText(`${count} items`, 128, 100);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const labelMaterial = new THREE.MeshBasicMaterial({
+                map: texture,
+                transparent: true
+            });
+            const labelGeometry = new THREE.PlaneGeometry(4, 2);
+            const label = new THREE.Mesh(labelGeometry, labelMaterial);
+            label.position.set(0, 7, 0);
+            label.lookAt(zoneCamera.position);
+            zoneScene.add(label);
+
+            // Start animation
+            animateZone3D();
+        }
+
+        function closeZoneModal() {
+            const modal = document.getElementById('zoneModal');
+            modal.style.display = 'none';
+
+            // Clean up 3D resources
+            if (zoneRenderer) {
+                cancelAnimationFrame(zoneAnimationId);
+                const container = document.getElementById('zone3dView');
+                if (container && zoneRenderer.domElement) {
+                    container.removeChild(zoneRenderer.domElement);
+                }
+                zoneRenderer = null;
+                zoneScene = null;
+                zoneCamera = null;
+            }
+        }
+
+        function getPhantomHeight(level) {
+            switch (level) {
+                case 'normal': return 0.5;
+                case 'medium': return 1.5;
+                case 'high': return 2.5;
+                case 'critical': return 4;
+                default: return 0.5;
+            }
+        }
+
+        function getPhantomColor(level) {
+            switch (level) {
+                case 'normal': return 0x4CAF50;
+                case 'medium': return 0xFFC107;
+                case 'high': return 0xFF5722;
+                case 'critical': return 0xF44336;
+                default: return 0x4CAF50;
+            }
+        }
+
+        function animateZone3D() {
+            zoneAnimationId = requestAnimationFrame(animateZone3D);
+
+            // Rotate phantom indicator
+            if (zoneScene && zoneScene.children) {
+                zoneScene.children.forEach(child => {
+                    if (child.geometry && child.geometry.type === 'CylinderGeometry') {
+                        child.rotation.y += 0.01;
+                    }
+                });
+            }
+
+            if (zoneRenderer && zoneCamera && zoneScene) {
+                zoneRenderer.render(zoneScene, zoneCamera);
+            }
+        }
+
+        function setZoneView(view) {
+            currentView = view;
+
+            // Update button states
+            document.querySelectorAll('.zone-view-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Adjust camera position based on view
+            switch (view) {
+                case 'isometric':
+                    animateZoneCamera(8, 6, 8);
+                    break;
+                case 'top':
+                    animateZoneCamera(0, 12, 0);
+                    break;
+                case 'walkthrough':
+                    animateZoneCamera(0, 2, 8);
+                    break;
+            }
+        }
+
+        function animateZoneCamera(x, y, z) {
+            const startPos = {
+                x: zoneCamera.position.x,
+                y: zoneCamera.position.y,
+                z: zoneCamera.position.z
+            };
+
+            const targetPos = { x, y, z };
+            const duration = 1000;
+            const startTime = Date.now();
+
+            function updateCamera() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Smooth easing
+                const eased = 1 - Math.pow(1 - progress, 3);
+
+                zoneCamera.position.x = startPos.x + (targetPos.x - startPos.x) * eased;
+                zoneCamera.position.y = startPos.y + (targetPos.y - startPos.y) * eased;
+                zoneCamera.position.z = startPos.z + (targetPos.z - startPos.z) * eased;
+
+                zoneCamera.lookAt(0, 0, 0);
 
                 if (progress < 1) {
                     requestAnimationFrame(updateCamera);
@@ -1368,9 +1685,257 @@
             <!-- Your page content here -->
         </main>
         <footer>
-            © 2025 Team SparkVIT - Walmart WalSpectra, Phantom Inventory Detector
+            © 2025 Team SparkVIT – Walmart WalSpectra, Phantom Inventory Detector
         </footer>
     </body>
-</body>
+    <!-- 1. Add the zone modal dialog just before the closing </body> tag -->
+    <div class="zone-modal" id="zoneModal">
+        <div class="zone-modal-content">
+            <div class="zone-modal-header">
+                <div class="zone-modal-title" id="zoneModalTitle">Zone A1 - 3D View</div>
+                <button class="zone-modal-close" onclick="closeZoneModal()">×</button>
+            </div>
+            <div class="zone-modal-body">
+                <div class="zone-3d-container" id="zone3dView"></div>
+                <div class="zone-view-controls">
+                    <button class="zone-view-btn active" onclick="setZoneView('isometric')">Isometric</button>
+                    <button class="zone-view-btn" onclick="setZoneView('top')">Top View</button>
+                    <button class="zone-view-btn" onclick="setZoneView('walkthrough')">Walkthrough</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-</html>
+    <script>
+        // ...existing code...
+
+        // Zone Modal Functions
+        function openZoneModal(zoneId) {
+            currentZoneId = zoneId;
+            const modal = document.getElementById('zoneModal');
+            const modalTitle = document.getElementById('zoneModalTitle');
+            modalTitle.textContent = `Zone ${zoneId} - 3D View`;
+
+            modal.style.display = 'flex';
+            initZone3D(zoneId);
+        }
+
+        function closeZoneModal() {
+            const modal = document.getElementById('zoneModal');
+            modal.style.display = 'none';
+
+            // Clean up 3D resources
+            if (zoneRenderer) {
+                cancelAnimationFrame(zoneAnimationId);
+                const container = document.getElementById('zone3dView');
+                if (container && zoneRenderer.domElement) {
+                    container.removeChild(zoneRenderer.domElement);
+                }
+                zoneRenderer = null;
+                zoneScene = null;
+                zoneCamera = null;
+            }
+        }
+
+        function initZone3D(zoneId) {
+            const container = document.getElementById('zone3dView');
+            if (!container) return;
+
+            // Clean up if there's an existing renderer
+            if (zoneRenderer) {
+                cancelAnimationFrame(zoneAnimationId);
+                if (container.contains(zoneRenderer.domElement)) {
+                    container.removeChild(zoneRenderer.domElement);
+                }
+                zoneRenderer = null;
+            }
+
+            // Scene setup
+            zoneScene = new THREE.Scene();
+            zoneScene.background = new THREE.Color(0x1a1a1a);
+
+            // Camera setup
+            zoneCamera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            zoneCamera.position.set(8, 6, 8);
+            zoneCamera.lookAt(0, 0, 0);
+
+            // Renderer setup
+            zoneRenderer = new THREE.WebGLRenderer({ antialias: true });
+            zoneRenderer.setSize(container.clientWidth, container.clientHeight);
+            zoneRenderer.shadowMap.enabled = true;
+            container.appendChild(zoneRenderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+            zoneScene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 10, 7);
+            directionalLight.castShadow = true;
+            zoneScene.add(directionalLight);
+
+            // Floor
+            const floorGeometry = new THREE.PlaneGeometry(10, 10);
+            const floorMaterial = new THREE.MeshLambertMaterial({ color: 0x808080 });
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.receiveShadow = true;
+            zoneScene.add(floor);
+
+            // Get zone data
+            const zoneLevelMap = {
+                'A1': 'normal', 'A2': 'medium', 'A3': 'normal', 'A4': 'high', 'A5': 'normal', 'A6': 'normal', 'A7': 'medium', 'A8': 'normal',
+                'B1': 'normal', 'B2': 'critical', 'B3': 'high', 'B4': 'normal', 'B5': 'normal', 'B6': 'high', 'B7': 'normal', 'B8': 'medium',
+                'C1': 'medium', 'C2': 'normal', 'C3': 'normal', 'C4': 'critical', 'C5': 'high', 'C6': 'normal', 'C7': 'normal', 'C8': 'normal',
+                'D1': 'normal', 'D2': 'medium', 'D3': 'normal', 'D4': 'normal', 'D5': 'medium', 'D6': 'high', 'D7': 'critical', 'D8': 'normal'
+            };
+
+            const zoneCountMap = {
+                'A1': 2, 'A2': 8, 'A3': 1, 'A4': 18, 'A5': 3, 'A6': 1, 'A7': 7, 'A8': 2,
+                'B1': 1, 'B2': 32, 'B3': 19, 'B4': 4, 'B5': 2, 'B6': 16, 'B7': 3, 'B8': 9,
+                'C1': 11, 'C2': 3, 'C3': 2, 'C4': 28, 'C5': 21, 'C6': 1, 'C7': 4, 'C8': 2,
+                'D1': 1, 'D2': 12, 'D3': 3, 'D4': 2, 'D5': 8, 'D6': 17, 'D7': 35, 'D8': 1
+            };
+
+            const level = zoneLevelMap[zoneId] || 'normal';
+            const count = zoneCountMap[zoneId] || 0;
+            const zoneColor = getPhantomColor(level);
+
+            // Add shelves
+            const shelfGeometry = new THREE.BoxGeometry(8, 4, 2);
+            const shelfMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
+            const shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
+            shelf.position.set(0, 2, 0);
+            shelf.castShadow = true;
+            shelf.receiveShadow = true;
+            zoneScene.add(shelf);
+
+            // Add products based on count (simplified visualization)
+            for (let i = 0; i < Math.min(count, 20); i++) {
+                const productGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
+                const productMaterial = new THREE.MeshLambertMaterial({
+                    color: new THREE.Color().setHSL(Math.random(), 0.7, 0.6)
+                });
+                const product = new THREE.Mesh(productGeometry, productMaterial);
+
+                // Position products on the shelf randomly
+                const x = Math.random() * 6 - 3;
+                const y = 4.3; // Just above the shelf
+                const z = Math.random() * 1.5 - 0.75;
+
+                product.position.set(x, y, z);
+                product.castShadow = true;
+                zoneScene.add(product);
+            }
+
+            // Add phantom indicator (glowing cylinder)
+            const phantomHeight = getPhantomHeight(level);
+            const phantomGeometry = new THREE.CylinderGeometry(0.5, 0.5, phantomHeight, 8);
+            const phantomMaterial = new THREE.MeshLambertMaterial({
+                color: zoneColor,
+                emissive: zoneColor,
+                emissiveIntensity: 0.5
+            });
+            const phantom = new THREE.Mesh(phantomGeometry, phantomMaterial);
+            phantom.position.set(0, 4 + phantomHeight / 2, 0);
+            zoneScene.add(phantom);
+
+            // Add zone label
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 256;
+            canvas.height = 128;
+            context.font = '60px Arial';
+            context.fillStyle = 'white';
+            context.textAlign = 'center';
+            context.fillText(zoneId, 128, 60);
+            context.font = '30px Arial';
+            context.fillText(`${count} items`, 128, 100);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const labelMaterial = new THREE.MeshBasicMaterial({
+                map: texture,
+                transparent: true
+            });
+            const labelGeometry = new THREE.PlaneGeometry(4, 2);
+            const label = new THREE.Mesh(labelGeometry, labelMaterial);
+            label.position.set(0, 7, 0);
+            label.lookAt(zoneCamera.position);
+            zoneScene.add(label);
+
+            // Start animation
+            animateZone3D();
+        }
+
+        function animateZone3D() {
+            zoneAnimationId = requestAnimationFrame(animateZone3D);
+
+            // Rotate phantom indicator
+            if (zoneScene && zoneScene.children) {
+                zoneScene.children.forEach(child => {
+                    if (child.geometry && child.geometry.type === 'CylinderGeometry') {
+                        child.rotation.y += 0.01;
+                    }
+                });
+            }
+
+            if (zoneRenderer && zoneCamera && zoneScene) {
+                zoneRenderer.render(zoneScene, zoneCamera);
+            }
+        }
+
+        function setZoneView(view) {
+            currentView = view;
+
+            // Update button states
+            document.querySelectorAll('.zone-view-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Adjust camera position based on view
+            switch (view) {
+                case 'isometric':
+                    animateZoneCamera(8, 6, 8);
+                    break;
+                case 'top':
+                    animateZoneCamera(0, 12, 0);
+                    break;
+                case 'walkthrough':
+                    animateZoneCamera(0, 2, 8);
+                    break;
+            }
+        }
+
+        function animateZoneCamera(x, y, z) {
+            const startPos = {
+                x: zoneCamera.position.x,
+                y: zoneCamera.position.y,
+                z: zoneCamera.position.z
+            };
+
+            const targetPos = { x, y, z };
+            const duration = 1000;
+            const startTime = Date.now();
+
+            function updateCamera() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Smooth easing
+                const eased = 1 - Math.pow(1 - progress, 3);
+
+                zoneCamera.position.x = startPos.x + (targetPos.x - startPos.x) * eased;
+                zoneCamera.position.y = startPos.y + (targetPos.y - startPos.y) * eased;
+                zoneCamera.position.z = startPos.z + (targetPos.z - startPos.z) * eased;
+
+                zoneCamera.lookAt(0, 0, 0);
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCamera);
+                }
+            }
+
+            updateCamera();
+        }
+    </script>
