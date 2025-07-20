@@ -69,17 +69,17 @@ Scalable Architecture: Designed for enterprise-level deployment
 # Business Impact
 Financial Projections
 
-Per Store Recovery: ₹10 lakhs/month
-Network-wide Annual Impact: ₹4,700 crores
-ROI: Significant cost savings through reduced inventory shrinkage
-Customer Satisfaction: Improved product availability
+1. Per Store Recovery: ₹10 lakhs/month
+2. Network-wide Annual Impact: ₹4,700 crores
+3. ROI: Significant cost savings through reduced inventory shrinkage
+4. Customer Satisfaction: Improved product availability
 
 # Scalability
 
-✅ Proven concept for 4,700+ Walmart stores globally
-✅ Adaptable to various retail formats
-✅ Real-time processing capabilities
-✅ Cloud-based infrastructure
+- Proven concept for 4,700+ Walmart stores globally
+- Adaptable to various retail formats
+- Real-time processing capabilities
+- Cloud-based infrastructure
 
 # Problem Solved
 Phantom Inventory Challenge:
