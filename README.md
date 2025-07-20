@@ -12,9 +12,9 @@ Transform inventory management from reactive to proactive, restoring trust, reve
 
 Key Features
 
-<img width="1888" height="867" alt="image" src="https://github.com/user-attachments/assets/4afbb931-ba50-457c-b783-0db1649a995c" />
-
 # AI Detection & Store Layout
+
+<img width="1888" height="867" alt="image" src="https://github.com/user-attachments/assets/4afbb931-ba50-457c-b783-0db1649a995c" />
 
 Intelligent Hotspot Mapping: AI-powered analysis identifies phantom inventory locations
 Multi-View Visualization:
@@ -26,6 +26,8 @@ Multi-View Visualization:
 
 Priority Color Coding:
 
+<img width="1891" height="868" alt="image" src="https://github.com/user-attachments/assets/d5407484-7913-4fdb-ae34-ce052c59d07f" />
+
 🔴 Dark Red: Critical items (e.g., Samsung 75" QLED 4K Smart TV - ₹1,11,529)
 🟡 Yellow: Medium priority items
 🟢 Green: Low priority items
@@ -34,11 +36,15 @@ Priority Color Coding:
 
 # Smart Recovery System
 
+<img width="1883" height="872" alt="image" src="https://github.com/user-attachments/assets/44294339-4725-4bec-8345-da18652bf098" />
+
 Interactive Recovery Checklist: Streamlined workflow for store associates
 Real-time Item Tracking: Tick-to-complete functionality
 Queue Management: Prioritized item recovery sequence
 
 # ROI Dashboard
+
+<img width="1906" height="868" alt="image" src="https://github.com/user-attachments/assets/f58b97cd-bb69-406f-8e77-fc36aa583315" />
 
 Live Performance Metrics: Real-time phantom inventory recovery tracking
 Per-store Analytics: Individual store performance monitoring
@@ -48,7 +54,6 @@ Financial Impact Tracking: Revenue recovery visualization
 # Seamless Integration
 
 <img width="1901" height="868" alt="image" src="https://github.com/user-attachments/assets/4f16eb34-9a8f-4f9d-9c64-fd56f9af87f9" />
-
 
 Multi-source Data Processing:
 
@@ -94,12 +99,15 @@ Real-time impact measurement and reporting
 # Live Demo
 🌐 Try WalSpectra: https://wal-spectra.vercel.app/
 
+# View the PPT Here:
+https://www.canva.com/design/DAGtEAdhdLc/PqCZOr_Ka3XZ4AaIYUf5rA/edit?ui=eyJEIjp7IlAiOnsiQiI6ZmFsc2V9fX0
+
 # 🏆 Team SparkVIT
 From Vellore Institute of Technology (VIT)
-Harshit Arora - Team Lead
-Sameer Chaudhary - Developer
-Vaibhav Kumar - Developer
-Kartikey Tiwari - Developer
+1. Harshit Arora - Team Lead
+2. Sameer Chaudhary - Developer
+3. Vaibhav Kumar - Developer
+4. Kartikey Tiwari - Developer
 
 # 🏅 Hackathon Details
 Event: Walmart Sparkathon Hackathon 2025
