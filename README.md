@@ -99,6 +99,9 @@ Real-time impact measurement and reporting
 # Live Demo
 🌐 Try WalSpectra: https://wal-spectra.vercel.app/
 
+# YouTube Prototype Demonstration
+https://youtu.be/vPJpA-NlcMo?feature=shared
+
 # View the PPT Here:
 https://www.canva.com/design/DAGtEAdhdLc/PqCZOr_Ka3XZ4AaIYUf5rA/edit?ui=eyJEIjp7IlAiOnsiQiI6ZmFsc2V9fX0
 
