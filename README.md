@@ -110,7 +110,7 @@ From Vellore Institute of Technology (VIT)
 4. Kartikey Tiwari - Developer
 
 # 🏅 Hackathon Details
-Event: Walmart Sparkathon Hackathon 2025
-Challenge: Inventory Management Innovation
-Team: SparkVIT from VIT University
-Achievement: Innovative prototype for phantom inventory solution
+- Event: Walmart Sparkathon Hackathon 2025
+- Challenge: Inventory Management Innovation
+- Team: SparkVIT from VIT University
+- Achievement: Innovative prototype for phantom inventory solution
