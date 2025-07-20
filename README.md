@@ -1,4 +1,4 @@
-# WalSpectra
+# WalSpectra - Inventory Management System Designed Specifically for Walmart
 Smart AI-Assisted Phantom Inventory Detection & Recovery System
 Developed by Team SparkVIT for Walmart Sparkathon Hackathon 2025
 
